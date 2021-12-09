@@ -5,6 +5,7 @@ import 'package:untitled/contact_us.dart';
 import 'package:untitled/drawerhelper.dart';
 import 'package:untitled/homepage.dart';
 import 'package:untitled/navdrawerwidget.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MyNavigationDrawer extends StatefulWidget {
   const MyNavigationDrawer({Key? key}) : super(key: key);
@@ -32,47 +33,56 @@ class _MyNavigationDrawerState extends State<MyNavigationDrawer> {
       //   ),
       // ),
       body: screens[_currentIndex],
-
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
-        backgroundColor: DrawerHelper.defaultColor,
+        backgroundColor: Colors.white,
         type: BottomNavigationBarType.fixed,
         selectedFontSize: 16,
-        unselectedFontSize: 10,
+        unselectedFontSize: 12,
+        selectedLabelStyle: TextStyle(fontFamily: 'Hind Siliguri'),
         iconSize: 30,
-        selectedItemColor: Colors.red,
-        unselectedItemColor: Colors.white,
+        selectedItemColor: DrawerHelper.defaultColor,
+        unselectedItemColor: Colors.black,
         // fixedColor: Colors.white,
 
-        items: const [
+        items: [
           BottomNavigationBarItem(
             icon: Icon(
               Icons.home,
+              color: DrawerHelper.defaultColor,
             ),
-            label: 'Feed',
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.add_alert,
+              color: DrawerHelper.defaultColor,
+            ),
+            label: 'Subscription',
 
             // backgroundColor: Colors.blue
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.add),
-            label: 'Home',
-            // backgroundColor: Colors.blue
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+            icon: Icon(
+              Icons.person,
+              color: DrawerHelper.defaultColor,
+            ),
+            label: 'Profile',
             // backgroundColor: Colors.red
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Home',
+            icon: Icon(
+              Icons.contact_support,
+              color: DrawerHelper.defaultColor,
+            ),
+            label: 'Contact',
             // backgroundColor: Colors.blue
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-            // backgroundColor: Colors.blue
-          )
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.home),
+          //   label: 'Home',
+          //   // backgroundColor: Colors.blue
+          // )
         ],
         onTap: (index) {
           setState(() {

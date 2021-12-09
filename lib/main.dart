@@ -1,8 +1,16 @@
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:untitled/mydrawer.dart';
+import 'package:untitled/navdrawerwidget.dart';
+import 'package:untitled/youtube/provider/provider_video_course.dart';
+import 'package:untitled/youtube/video_course_list/video_course_list.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (context) => ProviderVideoCourse())
+  ],
+  child: MyApp(),));
 }
 
 class MyApp extends StatelessWidget {
@@ -16,7 +24,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyNavigationDrawer(),
+      home: const VideoCourseList(),
     );
   }
 }
