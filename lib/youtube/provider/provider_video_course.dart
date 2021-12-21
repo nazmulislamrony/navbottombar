@@ -14,7 +14,6 @@ class ProviderVideoCourse extends ChangeNotifier {
     loading = true;
     String url = "http://api.voltagelab.com/vl-app/video_courses/video_courses.php?api_token=$api_token";
     var response = await http.get(Uri.parse(url));
-    print("totalresponse1: $loading");
     if(response.statusCode == 200) {
       var jsondata = response.body;
       videoCourseList = modelVideoCourseFromJson(jsondata);
