@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
-import 'package:untitled/youtube/model/video_courses_model.dart';
+import 'package:untitled/paidcourse/model/video_courses_model.dart';
 
 
 class ProviderVideoCourse extends ChangeNotifier {

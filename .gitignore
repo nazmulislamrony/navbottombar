@@ -46,4 +46,4 @@ app.*.map.json
 /android/app/release
 
 
-lib/youtube/utilities/keys.dart
+lib/paidcourse/utilities/keys.dart

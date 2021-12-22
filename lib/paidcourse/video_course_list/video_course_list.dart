@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:untitled/youtube/provider/provider_video_course.dart';
+import 'package:untitled/paidcourse/model/playlist_iteam_model.dart';
+import 'package:untitled/paidcourse/provider/provider_video_course.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:untitled/paidcourse/provider/youtube_paid_course_api_provider.dart';
+import 'package:untitled/paidcourse/youtube_paid_course_playlist.dart';
 
 class VideoCourseList extends StatefulWidget {
   const VideoCourseList({Key? key}) : super(key: key);
@@ -75,7 +78,22 @@ class _VideoCourseListState extends State<VideoCourseList> {
                         gridContainer(
                             coursePrice: videocourseslist
                                 .videoCourseList[index].coursePrice,
-                            onTap: () {},
+                            onTap: () {
+                              var playlistdata =
+                                  videocourseslist.videoCourseList[index];
+                              print("testss: "+videocourseslist
+                                  .videoCourseList[index].courseId
+                                  .toString());
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          YoutubePaidCoursePlayList(
+                                              playlistId: playlistdata.courseId,
+                                              maxresult: 20,
+                                              playlistName:
+                                                  playlistdata.courseName)));
+                            },
                             courseName: videocourseslist
                                 .videoCourseList[index].courseName)
                       ],
@@ -105,42 +123,48 @@ class _VideoCourseListState extends State<VideoCourseList> {
           ),
         )
       ], borderRadius: BorderRadius.circular(5), color: Colors.white),
-      child: Stack(children: [
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          // crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              alignment: Alignment.center,
-              child: Text(courseName.toString(), style: GoogleFonts.lato(fontSize: 10)),
-            ),
-           SizedBox(height: 5),
-            Container(
-              alignment: Alignment.center,
-              child: Text("৳"+coursePrice.toString(),style: GoogleFonts.lato(fontSize: 10),),
-            ),
-          ],
-        ),
-        Container(
-          alignment: Alignment.bottomCenter ,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.end,
+      child: InkWell(
+        onTap: onTap,
+        child: Stack(children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                child:
-                Text("Content", style: GoogleFonts.lato(fontSize: 10)),
+                alignment: Alignment.center,
+                child: Text(courseName.toString(),
+                    style: GoogleFonts.lato(fontSize: 10)),
               ),
+              SizedBox(height: 5),
               Container(
+                alignment: Alignment.center,
                 child: Text(
-                  "Buy",
+                  "৳" + coursePrice.toString(),
                   style: GoogleFonts.lato(fontSize: 10),
                 ),
               ),
             ],
           ),
-        )
-      ]),
+          Container(
+            alignment: Alignment.bottomCenter,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Container(
+                  child: Text("Content", style: GoogleFonts.lato(fontSize: 10)),
+                ),
+                Container(
+                  child: Text(
+                    "Buy",
+                    style: GoogleFonts.lato(fontSize: 10),
+                  ),
+                ),
+              ],
+            ),
+          )
+        ]),
+      ),
     );
   }
 }
