@@ -15,6 +15,12 @@ class DownloadButton extends StatefulWidget {
 }
 
 class _DownloadButtonState extends State<DownloadButton> {
+  String downloadMessage = "downloading_initialize...";
+  bool isDownloading = false;
+  bool downloading = false;
+  double _percentage = 0;
+  String progress = '0';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,12 +34,26 @@ class _DownloadButtonState extends State<DownloadButton> {
             ),
             ElevatedButton(
                 onPressed: () {
+                  setState(() {
+                    isDownloading = !isDownloading;
+                  });
                   print("click");
                   openFile(
                       url:
                           "https://www.voltagelab.com/wp-content/uploads/2021/12/circuit_hatekhori-1.pdf");
                 },
-                child: Text("Download and Open"))
+                child: Text("Download and Open")),
+            Text("Downloading Number: $downloadMessage"),
+            Text('$progress%'),
+            LinearProgressIndicator(value: double.parse(_percentage.toString())),
+
+            isDownloading
+                ? Text(
+              'File Downloaded! You can see your file in the application\'s directory',
+            )
+                : Text(
+                'Click the FloatingActionButton to start Downloading!'),
+
           ],
         ),
       ),
@@ -51,20 +71,44 @@ class _DownloadButtonState extends State<DownloadButton> {
 
   // Download file into private folder not visible to user
   Future<File?> downloadFile(String url, String name) async {
+    setState(() {
+      downloading = true;
+    });
     final appStorage = await getApplicationDocumentsDirectory();
-
     final file = File('${appStorage.path}/$name');
     try {
       if (!file.existsSync()) {
-        final response = await Dio().get(url,
-            options: Options(
-                responseType: ResponseType.bytes,
-                followRedirects: false,
-                receiveTimeout: 0));
+        // final response = await Dio().get(url,
+        //     options: Options(
+        //         responseType: ResponseType.bytes,
+        //         followRedirects: false,
+        //         receiveTimeout: 0));
+        //
+        // final raf = file.openSync(mode: FileMode.write);
+        // raf.writeFromSync(response.data);
+        // await raf.close();
 
-        final raf = file.openSync(mode: FileMode.write);
-        raf.writeFromSync(response.data);
-        await raf.close();
+        Dio dio = Dio();
+        dio.download(url, file.path, onReceiveProgress: (rcv, total) {
+          setState(() {
+            progress = ((rcv / total) * 100).toStringAsFixed(0);
+            var dd  = rcv / total * 100;
+            _percentage = dd / 100;
+          });
+          if (progress == 100) {
+            setState(() {
+              isDownloading = true;
+            });
+          } else if (double.parse(progress) < 100) {}
+        }, deleteOnError: true).then((_) {
+          setState(() {
+            if(progress == 100) {
+              isDownloading = true;
+            }
+            downloading = false;
+          });
+        } );
+
         return file;
       } else {
         return file;
