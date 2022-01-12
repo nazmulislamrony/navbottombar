@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:untitled/pdf_viewer/pdfviewer_page.dart';
+import 'package:untitled/pdf_viewer/purchase_book/payment_list.dart';
 
 class DownloadButton extends StatefulWidget {
   const DownloadButton({Key? key}) : super(key: key);
@@ -45,15 +46,21 @@ class _DownloadButtonState extends State<DownloadButton> {
                 child: Text("Download and Open")),
             Text("Downloading Number: $downloadMessage"),
             Text('$progress%'),
-            LinearProgressIndicator(value: double.parse(_percentage.toString())),
-
+            LinearProgressIndicator(
+                value: double.parse(_percentage.toString())),
             isDownloading
                 ? Text(
-              'File Downloaded! You can see your file in the application\'s directory',
-            )
-                : Text(
-                'Click the FloatingActionButton to start Downloading!'),
-
+                    'File Downloaded! You can see your file in the application\'s directory',
+                  )
+                : Text('Click the FloatingActionButton to start Downloading!'),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => PaymentList()),
+                  );
+                },
+                child: Text("Payment List"))
           ],
         ),
       ),
@@ -92,7 +99,7 @@ class _DownloadButtonState extends State<DownloadButton> {
         dio.download(url, file.path, onReceiveProgress: (rcv, total) {
           setState(() {
             progress = ((rcv / total) * 100).toStringAsFixed(0);
-            var dd  = rcv / total * 100;
+            var dd = rcv / total * 100;
             _percentage = dd / 100;
           });
           if (progress == 100) {
@@ -102,12 +109,12 @@ class _DownloadButtonState extends State<DownloadButton> {
           } else if (double.parse(progress) < 100) {}
         }, deleteOnError: true).then((_) {
           setState(() {
-            if(progress == 100) {
+            if (progress == 100) {
               isDownloading = true;
             }
             downloading = false;
           });
-        } );
+        });
 
         return file;
       } else {
