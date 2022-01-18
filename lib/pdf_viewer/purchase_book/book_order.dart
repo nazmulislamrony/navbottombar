@@ -1,20 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:untitled/pdf_viewer/purchase_book/book_payment_provider.dart';
 
 class BookPaymentPage extends StatefulWidget {
   const BookPaymentPage({Key? key}) : super(key: key);
 
-
   @override
   _BookPaymentPageState createState() => _BookPaymentPageState();
-
 }
 
+class _BookPaymentPageState extends State<BookPaymentPage> {
+  String paymentNumbr = "";
 
-  class _BookPaymentPageState extends State<BookPaymentPage> {
-
-  String paymentNumbr="";
+  @override
+  void initState() {
+    // TODO: implement initState
+    Provider.of<PdfBookPaymentProvider>(context, listen: false);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -180,7 +185,11 @@ class BookPaymentPage extends StatefulWidget {
           Container(
             child: insertTransactionTxt(),
           ),
-          ElevatedButton(onPressed: (){}, child: Text("SUBMIT"))
+          ElevatedButton(
+              onPressed: () {
+                paySubmit(context);
+              },
+              child: Text("SUBMIT"))
         ],
       ),
     );
@@ -207,7 +216,6 @@ class BookPaymentPage extends StatefulWidget {
                 contentPadding: EdgeInsets.fromLTRB(10, 0, 0, 10),
                 enabled: true,
               ),
-
               onChanged: (val) {
                 setState(() {
                   paymentNumbr = val;
@@ -218,6 +226,12 @@ class BookPaymentPage extends StatefulWidget {
         ],
       ),
     );
+  }
+
+  paySubmit(BuildContext context) {
+   var insert = Provider.of<PdfBookPaymentProvider>(context, listen: false);
+
+   insert.bookPurchaseInputData(email: "email", mobile: "mobile", book_id: "book_id", status: "status", context: context);
   }
 
 /*                     child: TextFormField(

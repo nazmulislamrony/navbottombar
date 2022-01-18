@@ -46,6 +46,7 @@ dependencies:
   open_file: ^3.2.1
   flutter_pdfview: ^1.0.4
   path: ^1.8.0
+  hive: ^2.0.4
 
 
 dev_dependencies:

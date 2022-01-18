@@ -7,13 +7,14 @@ import 'package:untitled/navdrawerwidget.dart';
 import 'package:untitled/paidcourse/provider/provider_video_course.dart';
 import 'package:untitled/paidcourse/provider/youtube_paid_course_api_provider.dart';
 import 'package:untitled/paidcourse/video_course_list/video_course_list.dart';
+import 'package:untitled/pdf_viewer/purchase_book/book_payment_provider.dart';
 
 
 void main() {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => ProviderVideoCourse()),
     ChangeNotifierProvider(create: (context) => YoutubeApiProvider()),
-
+    ChangeNotifierProvider(create: (context) => PdfBookPaymentProvider())
   ],
   child: MyApp(),));
 }
