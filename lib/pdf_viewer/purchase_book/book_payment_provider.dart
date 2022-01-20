@@ -31,7 +31,6 @@ class PdfBookPaymentProvider extends ChangeNotifier {
       // Navigator.pushReplacement(context, newRoute)
     } else {
       print("not push");
-
     }
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,6 +15,9 @@ class BookPaymentPage extends StatefulWidget {
 
 class _BookPaymentPageState extends State<BookPaymentPage> {
   String paymentNumbr = "";
+  String bookId = "1";
+  String mobileNumber = "";
+  String transactionId = "";
 
   @override
   void initState() {
@@ -23,9 +28,7 @@ class _BookPaymentPageState extends State<BookPaymentPage> {
 
   @override
   Widget build(BuildContext context) {
-    String bookId = "1";
-    String mobileNumber = "017";
-    String transactionId = "jh2";
+
     return Scaffold(
         appBar: AppBar(
           title: Text("Pay Now"),
@@ -182,8 +185,22 @@ class _BookPaymentPageState extends State<BookPaymentPage> {
                   )),
             ],
           ),
-          Container(
-            child: insertTransactionTxt(),
+          Column(
+            children: [
+              Container(
+                child: insertTransactionTxt(
+                    tranxinfo: "Rocket Number", initVal: "01", onClk: () {
+
+                }),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                child: insertTransactionTxt(
+                    tranxinfo: "Transaction ID", initVal: "", onClk: () {}),
+              )
+            ],
           ),
           ElevatedButton(
               onPressed: () {
@@ -195,43 +212,48 @@ class _BookPaymentPageState extends State<BookPaymentPage> {
     );
   }
 
-  Widget insertTransactionTxt() {
-    return Container(
-      margin: EdgeInsets.only(left: 5),
-      child: Row(
-        children: [
-          Container(child: Text("Rocket Number:")),
-          SizedBox(
-            width: 10,
-          ),
-          Container(
-            width: 180,
-            child: TextFormField(
-              initialValue: "01",
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                hintText: "insert payment number",
-                border: OutlineInputBorder(),
-                alignLabelWithHint: true,
-                contentPadding: EdgeInsets.fromLTRB(10, 0, 0, 10),
-                enabled: true,
+  Widget insertTransactionTxt({String? tranxinfo, String? initVal, VoidCallback? onReply}) {
+    return Column(
+      children: [
+        Container(
+          margin: EdgeInsets.only(left: 5),
+          child: Row(
+            children: [
+              Container( width: 100, child: Text(tranxinfo.toString())),
+              SizedBox(
+                width: 10,
               ),
-              onChanged: (val) {
-                setState(() {
-                  paymentNumbr = val;
-                });
-              },
-            ),
-          )
-        ],
-      ),
+              Container(
+                width: 180,
+                child: TextFormField(
+                  initialValue: initVal.toString(),
+                  keyboardType: initVal == "01" ? TextInputType.number : null,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    alignLabelWithHint: true,
+                    contentPadding: EdgeInsets.fromLTRB(10, 0, 0, 10),
+                    enabled: true,
+                  ),
+                 // TODO: we have to add the text editing field, to get the changed.
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
   paySubmit(BuildContext context) {
-   var insert = Provider.of<PdfBookPaymentProvider>(context, listen: false);
+    // var insert = Provider.of<PdfBookPaymentProvider>(context, listen: false);
+    // insert.bookPurchaseInputData(
+    //     email: "email",
+    //     mobile: "mobile",
+    //     book_id: "book_id",
+    //     status: "status",
+    //     context: context);
 
-   insert.bookPurchaseInputData(email: "email", mobile: "mobile", book_id: "book_id", status: "status", context: context);
+    print("");
   }
 
 /*                     child: TextFormField(
